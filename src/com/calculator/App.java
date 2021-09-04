@@ -1,6 +1,7 @@
 package com.calculator;
 
 import javax.swing.*;
+import javax.tools.Tool;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,10 +31,18 @@ public class App {
     public JPanel JDisplayField;
     private JTextArea JDisplayFieldTextArea;
     private JMenuBar jMainMenuBar;
-    private Expression expr = new Expression();
 
     public App() {
-        JDisplayFieldTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        Expression expr = new Expression();
+
+        String[] fonts = {"-apple-system,BlinkMacSystemFont","Roboto","Helvetica Neue","Geneva","Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai","sans-serif","arial","Tahoma","verdana"};
+        for (String font: fonts) {
+            if(App.isFontExists(font)) {
+                JDisplayFieldTextArea.setFont(new Font(font, Font.PLAIN, 14));
+                break;
+            }
+        }
+
         JBtn1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 expr.addChar('1');
@@ -94,12 +103,6 @@ public class App {
                 JDisplayFieldTextArea.append("0");
             }
         });
-        JBtnDevision.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('/');
-                JDisplayFieldTextArea.append("/");
-            }
-        });
         JBtnPercent.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 expr.addChar('%');
@@ -109,8 +112,56 @@ public class App {
         JBtnSqrt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JDisplayFieldTextArea.setText("");
-                double result = ProcessCalc.sqrt(Double.valueOf(expr.toString()));
+                double arg = Double.parseDouble(expr.toString());
+                double result = ProcessCalc.sqrt(arg);
                 JDisplayFieldTextArea.append(String.valueOf(result));
+            }
+        });
+        JBtnC.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                expr.clearExpression();
+                JDisplayFieldTextArea.setText("");
+            }
+        });
+        JBtnDevision.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                expr.addChar('/');
+                JDisplayFieldTextArea.append("/");
+            }
+        });
+        JBtnMultiply.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                expr.addChar('*');
+                JDisplayFieldTextArea.append("*");
+            }
+        });
+        JBtnMinus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                expr.addChar('-');
+                JDisplayFieldTextArea.append("-");
+            }
+        });
+        JBtnPlus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                expr.addChar('+');
+                JDisplayFieldTextArea.append("+");
+            }
+        });
+        JBtnChangeSign.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                expr.changeSign();
+                JDisplayFieldTextArea.setText(expr.toString());
+            }
+        });
+        JBtnPoint.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                expr.addChar('.');
+                JDisplayFieldTextArea.setText(".");
+            }
+        });
+        JBtnEqual.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -120,7 +171,22 @@ public class App {
         frame.setResizable(false);
         frame.setContentPane(new App().JPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension dimension = toolkit.getScreenSize();
+        frame.setBounds(dimension.width/2+150, dimension.height/2+150, 300, 300);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public static boolean isFontExists(String font) {
+        GraphicsEnvironment g= null;
+        g=GraphicsEnvironment.getLocalGraphicsEnvironment();
+        String []fonts=g.getAvailableFontFamilyNames();
+        for (int i = 0; i < fonts.length; i++) {
+            if(fonts[i].equals(font)){
+                return true;
+            }
+        }
+        return false;
     }
 }
