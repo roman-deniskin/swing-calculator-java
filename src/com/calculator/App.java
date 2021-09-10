@@ -30,140 +30,149 @@ public class App {
     private JButton JBtnEqual;
     public JPanel JDisplayField;
     private JTextArea JDisplayFieldTextArea;
+    private JTextPane JResultDisplay;
     private JMenuBar jMainMenuBar;
 
     public App() {
         Expression expr = new Expression();
+        try {
 
-        String[] fonts = {"-apple-system,BlinkMacSystemFont","Roboto","Helvetica Neue","Geneva","Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai","sans-serif","arial","Tahoma","verdana"};
-        for (String font: fonts) {
-            if(App.isFontExists(font)) {
-                JDisplayFieldTextArea.setFont(new Font(font, Font.PLAIN, 14));
-                break;
+            String[] fonts = {"-apple-system,BlinkMacSystemFont", "Roboto", "Helvetica Neue", "Geneva", "Noto Sans Armenian", "Noto Sans Bengali", "Noto Sans Cherokee", "Noto Sans Devanagari", "Noto Sans Ethiopic", "Noto Sans Georgian", "Noto Sans Hebrew", "Noto Sans Kannada", "Noto Sans Khmer", "Noto Sans Lao", "Noto Sans Osmanya", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Thai", "sans-serif", "arial", "Tahoma", "verdana"};
+            for (String font : fonts) {
+                if (App.isFontExists(font)) {
+                    JDisplayFieldTextArea.setFont(new Font(font, Font.PLAIN, 14));
+                    break;
+                }
             }
+
+            JBtn1.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('1');
+                    JDisplayFieldTextArea.append("1");
+                }
+            });
+            JBtn2.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('2');
+                    JDisplayFieldTextArea.append("2");
+                }
+            });
+            JBtn3.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('3');
+                    JDisplayFieldTextArea.append("3");
+                }
+            });
+            JBtn4.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('4');
+                    JDisplayFieldTextArea.append("4");
+                }
+            });
+            JBtn5.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('5');
+                    JDisplayFieldTextArea.append("5");
+                }
+            });
+            JBtn6.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('6');
+                    JDisplayFieldTextArea.append("6");
+                }
+            });
+            JBtn7.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('7');
+                    JDisplayFieldTextArea.append("7");
+                }
+            });
+            JBtn8.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('8');
+                    JDisplayFieldTextArea.append("8");
+                }
+            });
+            JBtn9.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('9');
+                    JDisplayFieldTextArea.append("9");
+                }
+            });
+            JBtn0.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('0');
+                    JDisplayFieldTextArea.append("0");
+                }
+            });
+            JBtnPercent.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('%');
+                    JDisplayFieldTextArea.append("%");
+                }
+            });
+            JBtnSqrt.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    double arg = Double.parseDouble(expr.toString());
+                    ProcessCalc proc = new ProcessCalc();
+                    double result = proc.sqrt(arg);
+                    JResultDisplay.setText(String.valueOf(result));
+                }
+            });
+            JBtnC.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.clearExpression();
+                    JDisplayFieldTextArea.setText("");
+                }
+            });
+            JBtnDevision.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('/');
+                    JDisplayFieldTextArea.append("/");
+                }
+            });
+            JBtnMultiply.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('*');
+                    JDisplayFieldTextArea.append("*");
+                }
+            });
+            JBtnMinus.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('-');
+                    JDisplayFieldTextArea.append("-");
+                }
+            });
+            JBtnPlus.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('+');
+                    JDisplayFieldTextArea.append("+");
+                }
+            });
+            JBtnChangeSign.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.changeSign();
+                    JDisplayFieldTextArea.setText(expr.toString());
+                }
+            });
+            JBtnPoint.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    expr.addChar('.');
+                    JDisplayFieldTextArea.setText(".");
+                }
+            });
+            JBtnEqual.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    Expression expr = new Expression();
+                    expr.parse(JDisplayFieldTextArea.getText());
+                    ProcessCalc calc = new ProcessCalc();
+                    JDisplayFieldTextArea.setText(calc.simpleOperation(expr).toString());
+                    //calc.simpleOperation(args, args.operation);
+                }
+            });
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null,e.getMessage());
         }
-
-        JBtn1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('1');
-                JDisplayFieldTextArea.append("1");
-            }
-        });
-        JBtn2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('2');
-                JDisplayFieldTextArea.append("2");
-            }
-        });
-        JBtn3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('3');
-                JDisplayFieldTextArea.append("3");
-            }
-        });
-        JBtn4.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('4');
-                JDisplayFieldTextArea.append("4");
-            }
-        });
-        JBtn5.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('5');
-                JDisplayFieldTextArea.append("5");
-            }
-        });
-        JBtn6.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('6');
-                JDisplayFieldTextArea.append("6");
-            }
-        });
-        JBtn7.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('7');
-                JDisplayFieldTextArea.append("7");
-            }
-        });
-        JBtn8.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('8');
-                JDisplayFieldTextArea.append("8");
-            }
-        });
-        JBtn9.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('9');
-                JDisplayFieldTextArea.append("9");
-            }
-        });
-        JBtn0.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('0');
-                JDisplayFieldTextArea.append("0");
-            }
-        });
-        JBtnPercent.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('%');
-                JDisplayFieldTextArea.append("%");
-            }
-        });
-        JBtnSqrt.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JDisplayFieldTextArea.setText("");
-                double arg = Double.parseDouble(expr.toString());
-                double result = ProcessCalc.sqrt(arg);
-                JDisplayFieldTextArea.append(String.valueOf(result));
-            }
-        });
-        JBtnC.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.clearExpression();
-                JDisplayFieldTextArea.setText("");
-            }
-        });
-        JBtnDevision.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('/');
-                JDisplayFieldTextArea.append("/");
-            }
-        });
-        JBtnMultiply.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('*');
-                JDisplayFieldTextArea.append("*");
-            }
-        });
-        JBtnMinus.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('-');
-                JDisplayFieldTextArea.append("-");
-            }
-        });
-        JBtnPlus.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('+');
-                JDisplayFieldTextArea.append("+");
-            }
-        });
-        JBtnChangeSign.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.changeSign();
-                JDisplayFieldTextArea.setText(expr.toString());
-            }
-        });
-        JBtnPoint.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                expr.addChar('.');
-                JDisplayFieldTextArea.setText(".");
-            }
-        });
-        JBtnEqual.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
     }
 
     public static void main(String[] args) {
